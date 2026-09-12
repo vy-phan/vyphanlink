@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Tổng hợp link cá nhân</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+  :root{
+    --bg: #191b1f;
+    --panel: #202226;
+    --line: #2d2f34;
+    --line-soft: #26282d;
+    --text: #ecece9;
+    --dim: #8b8f96;
+    --dim-soft: #5a5e65;
+    --accent: #4fd684;
+    --accent-dim: rgba(79,214,132,0.14);
+    --row-hover: #212327;
+    --radius: 12px;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color: transparent; }
+  html{ background: var(--bg); }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    animation: fadeIn .5s ease;
+  }
+  @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+  .wrap{
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 70px;
+  }
+
+  header{
+    margin-bottom: 28px;
+  }
+  .kicker{
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  h1{
+    font-size: 26px;
+    font-weight: 650;
+    letter-spacing: -0.4px;
+    line-height: 1.25;
+  }
+  header p{
+    color: var(--dim);
+    font-size: 14px;
+    margin-top: 8px;
+    max-width: 46ch;
+    line-height: 1.5;
+  }
+
+  .search{
+    position: relative;
+    margin: 26px 0 8px;
+    border-bottom: 1px solid var(--line);
+    transition: border-color .15s ease;
+  }
+  .search:focus-within{
+    border-color: var(--accent);
+  }
+  .search svg{
+    position:absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dim-soft);
+  }
+  .search input{
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 15px;
+    padding: 10px 4px 10px 26px;
+  }
+  .search input::placeholder{ color: var(--dim-soft); }
+
+  section.category{
+    margin-top: 34px;
+  }
+  .cat-head{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 4px;
+    color: var(--dim);
+  }
+  .cat-head svg{ color: var(--accent); flex-shrink: 0; }
+  .cat-head h2{
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cat-count{
+    font-size: 12px;
+    color: var(--dim-soft);
+    margin-left: auto;
+  }
+
+  .list{
+    border-top: 1px solid var(--line-soft);
+  }
+  .row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 10px;
+    margin: 0 -10px;
+    border-bottom: 1px solid var(--line-soft);
+    border-radius: 10px;
+    transition: background .15s ease;
+  }
+  .row:hover{
+    background: var(--row-hover);
+  }
+  .row-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dim);
+    flex-shrink: 0;
+    transition: color .15s ease;
+  }
+  .row:hover .row-icon{
+    color: var(--accent);
+  }
+  .row-main{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .row-name{
+    font-size: 15px;
+    font-weight: 550;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color .15s ease;
+  }
+  .row:hover .row-name{
+    color: var(--accent);
+  }
+  .row-url{
+    font-size: 12.5px;
+    color: var(--dim);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .row-actions{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .icon-btn{
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--dim);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    text-decoration: none;
+  }
+  .icon-btn:hover, .icon-btn:active{
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .toast{
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .2s ease;
+    z-index: 100;
+  }
+  .toast.show{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(6,7,9,0.7);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+    padding: 20px;
+  }
+  .modal-overlay.show{
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-align: center;
+    max-width: 280px;
+    width: 100%;
+  }
+  .modal p{
+    font-size: 12.5px;
+    color: var(--dim);
+    margin-bottom: 16px;
+    word-break: break-all;
+  }
+  .modal canvas{
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px;
+  }
+  .modal button.close{
+    margin-top: 18px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .modal button.close:hover{ border-color: var(--accent); color: var(--accent); }
+
+  .empty{
+    color: var(--dim-soft);
+    font-size: 13.5px;
+    padding: 24px 0;
+    text-align: center;
+  }
+
+  footer{
+    margin-top: 40px;
+    color: var(--dim-soft);
+    font-size: 12px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Tổng hợp link cá nhân</h1>
+    <p>Code nhiều mà lười nhớ domain, nên gom hết vào đây — mở nhanh, copy link, hoặc quét QR khi cần dùng trên máy khác.</p>
+  </header>
+
+  <div class="search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" placeholder="Tìm theo tên..." oninput="filterCards()">
+  </div>
+
+  <div id="cardsContainer"></div>
+
+  <footer>Chạm biểu tượng để copy link hoặc lấy QR code</footer>
+</div>
+
+<div class="toast" id="toast">Đã sao chép link</div>
+
+<div class="modal-overlay" id="qrModal">
+  <div class="modal">
+    <p id="qrModalUrl"></p>
+    <canvas id="qrCanvas"></canvas>
+    <button class="close" onclick="closeQR()">Đóng</button>
+  </div>
+</div>
+
+<script>
+// ---- inline icon set (stroke, currentColor) ----
+const icons = {
+  book: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>`,
+  film: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><line x1="3" y1="9" x2="8" y2="9"/><line x1="3" y1="15" x2="8" y2="15"/><line x1="16" y1="4" x2="16" y2="20"/></svg>`,
+  tool: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>`,
+  cap: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5 12 4l10 4.5-10 4.5-10-4.5Z"/><path d="M6 11v4c0 1.3 2.7 2.5 6 2.5s6-1.2 6-2.5v-4"/></svg>`,
+  dumbbell: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8v8"/><path d="M18 8v8"/><path d="M3 10v4"/><path d="M21 10v4"/><path d="M6 12h12"/></svg>`,
+  person: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"/></svg>`,
+  music: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>`,
+  copy: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>`,
+  qr: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="18" y1="14" x2="21" y2="14"/><line x1="14" y1="18" x2="17" y2="18"/><line x1="14" y1="21" x2="14" y2="21.01"/><line x1="21" y1="18" x2="21" y2="21"/><line x1="18" y1="21" x2="18" y2="21.01"/></svg>`,
+  external: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  grid: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>`,
+};
+
+function domain(url){
+  try{ return new URL(url).hostname.replace(/^www\./,''); }
+  catch(e){ return url; }
+}
+
+const data = [
+  {
+    category: "Truyện & tiểu thuyết",
+    icon: icons.book,
+    items: [
+      { name:"NTR Manga", desc:"Đọc truyện tranh trực tuyến", url:"https://ntrmanga.onrender.com/" },
+      { name:"Novel Offline", desc:"Thư viện truyện chữ đa thể loại", url:"https://noveloffline210.onrender.com/" },
+    ]
+  },
+  {
+    category: "Xem phim",
+    icon: icons.film,
+    items: [
+      { name:"Adult Phim", desc:"Thư viện phim riêng tư cá nhân hóa", url:"https://adult-phim.onrender.com/" },
+      { name:"RoAnime", desc:"Xem anime & tổng hợp đa thể loại", url:"https://roanime.vercel.app/" },
+      { name:"Hentaiz", desc:"Link chính", url:"https://hentaiz.to/" },
+      { name:"Hentaiz (dự phòng)", desc:"Link phụ khi link chính lỗi", url:"https://hentaiz.taxi/" },
+    ]
+  },
+  {
+    category: "Sức khỏe",
+    icon: icons.dumbbell,
+    items: [
+      { name:"Fitness 2026", desc:"Nhắc nhở & theo dõi tập thể dục", url:"https://vy-phan.github.io/Fitness_2026/" },
+    ]
+  },
+  {
+    category: "Cá nhân",
+    icon: icons.person,
+    items: [
+      { name:"Vy Phanne Bio", desc:"Trang bio, tổng hợp liên kết cá nhân", url:"https://vyphanne.vercel.app/bio" },
+    ]
+  },
+  {
+    category: "Khác",
+    icon: icons.grid,
+    items: [
+      { name:"InsCrop", desc:"Công cụ · crop & tối ưu ảnh cho Instagram", url:"https://inscrop.onrender.com/", icon: icons.tool },
+      { name:"CapCut Course", desc:"Học tập · video khóa học chỉnh sửa CapCut", url:"https://vy-phan.github.io/capcut-course/", icon: icons.cap },
+      { name:"iMusicReze", desc:"Âm nhạc · app desktop nghe nhạc online", url:"https://imusicreze.onrender.com/", icon: icons.music },
+    ]
+  },
+];
+
+const container = document.getElementById('cardsContainer');
+
+function render(filter=""){
+  container.innerHTML = "";
+  const f = filter.trim().toLowerCase();
+  let totalShown = 0;
+
+  data.forEach(group => {
+    const filteredItems = group.items.filter(it =>
+      it.name.toLowerCase().includes(f) || it.desc.toLowerCase().includes(f)
+    );
+    if(filteredItems.length === 0) return;
+    totalShown += filteredItems.length;
+
+    const section = document.createElement('section');
+    section.className = 'category';
+
+    section.innerHTML = `
+      <div class="cat-head">
+        ${group.icon}
+        <h2>${group.category}</h2>
+        <span class="cat-count">${filteredItems.length}</span>
+      </div>
+      <div class="list"></div>
+    `;
+
+    const list = section.querySelector('.list');
+    filteredItems.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      const rowIcon = item.icon || group.icon;
+      row.innerHTML = `
+        <span class="row-icon">${rowIcon}</span>
+        <a class="row-main" href="${item.url}" target="_blank" rel="noopener">
+          <span class="row-name">${item.name}</span>
+          <span class="row-url">${item.desc} · ${domain(item.url)}</span>
+        </a>
+        <div class="row-actions">
+          <button class="icon-btn" title="Copy link" onclick="copyLink('${item.url}')">${icons.copy}</button>
+          <button class="icon-btn" title="QR code" onclick="showQR('${item.url}')">${icons.qr}</button>
+          <a class="icon-btn" title="Mở trang" href="${item.url}" target="_blank" rel="noopener">${icons.external}</a>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+
+    container.appendChild(section);
+  });
+
+  if(totalShown === 0){
+    container.innerHTML = `<div class="empty">Không tìm thấy trang nào khớp.</div>`;
+  }
+}
+
+function filterCards(){
+  render(document.getElementById('searchInput').value);
+}
+
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(() => {
+    showToast("Đã sao chép link");
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast("Đã sao chép link");
+  });
+}
+
+let toastTimeout;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 1700);
+}
+
+function showQR(url){
+  const modal = document.getElementById('qrModal');
+  const canvas = document.getElementById('qrCanvas');
+  document.getElementById('qrModalUrl').textContent = url;
+  QRCode.toCanvas(canvas, url, { width: 190, margin: 1, color: { dark: "#0b0c0f", light: "#ffffff" } });
+  modal.classList.add('show');
+}
+
+function closeQR(){
+  document.getElementById('qrModal').classList.remove('show');
+}
+
+document.getElementById('qrModal').addEventListener('click', (e) => {
+  if(e.target.id === 'qrModal') closeQR();
+});
+
+render();
+</script>
+
+</body>
+</html>
