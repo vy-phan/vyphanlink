@@ -16,6 +16,8 @@
     --dim-soft: #5a5e65;
     --accent: #4fd684;
     --accent-dim: rgba(79,214,132,0.14);
+    --danger: #ff6b6b;
+    --danger-dim: rgba(255,107,107,0.14);
     --row-hover: #212327;
     --radius: 12px;
   }
@@ -37,15 +39,7 @@
     padding: 40px 20px 70px;
   }
 
-  header{
-    margin-bottom: 28px;
-  }
-  .kicker{
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+  header{ margin-bottom: 22px; }
   h1{
     font-size: 26px;
     font-weight: 650;
@@ -60,15 +54,56 @@
     line-height: 1.5;
   }
 
+  /* ---- tabs ---- */
+  .tabs{
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    margin-bottom: 8px;
+  }
+  .tab-btn{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 10px;
+    background: transparent;
+    border: none;
+    color: var(--dim);
+    font-size: 14px;
+    font-weight: 550;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover{ color: var(--text); }
+  .tab-btn.active{
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .tab-badge{
+    font-size: 11px;
+    background: var(--line);
+    color: var(--dim);
+    border-radius: 999px;
+    padding: 1px 7px;
+  }
+  .tab-btn.active .tab-badge{ background: rgba(79,214,132,0.22); color: var(--accent); }
+  .tab-panel{ display: none; }
+  .tab-panel.active{ display: block; animation: fadeIn .25s ease; }
+
+  /* ---- search ---- */
   .search{
     position: relative;
-    margin: 26px 0 8px;
+    margin: 22px 0 8px;
     border-bottom: 1px solid var(--line);
     transition: border-color .15s ease;
   }
-  .search:focus-within{
-    border-color: var(--accent);
-  }
+  .search:focus-within{ border-color: var(--accent); }
   .search svg{
     position:absolute;
     left: 0;
@@ -87,9 +122,7 @@
   }
   .search input::placeholder{ color: var(--dim-soft); }
 
-  section.category{
-    margin-top: 34px;
-  }
+  section.category{ margin-top: 34px; }
   .cat-head{
     display: flex;
     align-items: center;
@@ -109,9 +142,7 @@
     margin-left: auto;
   }
 
-  .list{
-    border-top: 1px solid var(--line-soft);
-  }
+  .list{ border-top: 1px solid var(--line-soft); }
   .row{
     display: flex;
     align-items: center;
@@ -122,9 +153,7 @@
     border-radius: 10px;
     transition: background .15s ease;
   }
-  .row:hover{
-    background: var(--row-hover);
-  }
+  .row:hover{ background: var(--row-hover); }
   .row-icon{
     display: flex;
     align-items: center;
@@ -133,9 +162,7 @@
     flex-shrink: 0;
     transition: color .15s ease;
   }
-  .row:hover .row-icon{
-    color: var(--accent);
-  }
+  .row:hover .row-icon{ color: var(--accent); }
   .row-main{
     flex: 1;
     min-width: 0;
@@ -153,9 +180,7 @@
     text-overflow: ellipsis;
     transition: color .15s ease;
   }
-  .row:hover .row-name{
-    color: var(--accent);
-  }
+  .row:hover .row-name{ color: var(--accent); }
   .row-url{
     font-size: 12.5px;
     color: var(--dim);
@@ -188,6 +213,116 @@
     background: var(--accent-dim);
     color: var(--accent);
   }
+  .icon-btn.danger:hover, .icon-btn.danger:active{
+    background: var(--danger-dim);
+    color: var(--danger);
+  }
+  .local-tag{
+    font-size: 10.5px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 1px 7px;
+    margin-left: 6px;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+
+  /* ---- quick create tab ---- */
+  .create-card{
+    margin-top: 22px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .field{ margin-bottom: 14px; }
+  .field label{
+    display: block;
+    font-size: 12.5px;
+    color: var(--dim);
+    margin-bottom: 6px;
+    font-weight: 550;
+  }
+  .field input{
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 15px;
+    padding: 11px 12px;
+    outline: none;
+    transition: border-color .15s ease;
+  }
+  .field input:focus{ border-color: var(--accent); }
+  .field input::placeholder{ color: var(--dim-soft); }
+  .field .hint{
+    font-size: 12px;
+    margin-top: 6px;
+    color: var(--dim-soft);
+    min-height: 16px;
+  }
+  .field .hint.err{ color: var(--danger); }
+
+  .qr-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 0 6px;
+  }
+  .qr-frame{
+    width: 220px;
+    height: 220px;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .qr-frame.empty{
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--dim-soft);
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.5;
+  }
+  .qr-frame canvas{ display: block; }
+
+  .btn-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .btn{
+    flex: 1 1 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 11px 12px;
+    font-size: 13.5px;
+    font-weight: 550;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .btn:hover:not(:disabled){ border-color: var(--accent); color: var(--accent); }
+  .btn:disabled{ opacity: .4; cursor: not-allowed; }
+  .btn.primary{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0b140e;
+  }
+  .btn.primary:hover:not(:disabled){ background: #62e196; color: #0b140e; }
 
   .toast{
     position: fixed;
@@ -204,6 +339,7 @@
     pointer-events: none;
     transition: all .2s ease;
     z-index: 100;
+    white-space: nowrap;
   }
   .toast.show{
     opacity: 1;
@@ -224,17 +360,14 @@
     transition: opacity .18s ease;
     padding: 20px;
   }
-  .modal-overlay.show{
-    opacity: 1;
-    pointer-events: all;
-  }
+  .modal-overlay.show{ opacity: 1; pointer-events: all; }
   .modal{
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 22px;
     text-align: center;
-    max-width: 280px;
+    max-width: 300px;
     width: 100%;
   }
   .modal p{
@@ -248,18 +381,7 @@
     background: #fff;
     padding: 10px;
   }
-  .modal button.close{
-    margin-top: 18px;
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--text);
-    border-radius: 8px;
-    font-size: 13.5px;
-    cursor: pointer;
-  }
-  .modal button.close:hover{ border-color: var(--accent); color: var(--accent); }
+  .modal .btn-row{ margin-top: 16px; }
 
   .empty{
     color: var(--dim-soft);
@@ -273,6 +395,7 @@
     color: var(--dim-soft);
     font-size: 12px;
     text-align: center;
+    line-height: 1.6;
   }
 </style>
 </head>
@@ -284,14 +407,51 @@
     <p>Code nhiều mà lười nhớ domain, nên gom hết vào đây — mở nhanh, copy link, hoặc quét QR khi cần dùng trên máy khác.</p>
   </header>
 
-  <div class="search">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="searchInput" placeholder="Tìm theo tên..." oninput="filterCards()">
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" id="tabBtnList" role="tab" onclick="switchTab('list')">
+      <span id="tabIconList"></span> Danh sách <span class="tab-badge" id="totalBadge">0</span>
+    </button>
+    <button class="tab-btn" id="tabBtnCreate" role="tab" onclick="switchTab('create')">
+      <span id="tabIconCreate"></span> Tạo nhanh
+    </button>
   </div>
 
-  <div id="cardsContainer"></div>
+  <!-- TAB 1: LIST -->
+  <div class="tab-panel active" id="panelList">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Tìm theo tên..." oninput="filterCards()">
+    </div>
+    <div id="cardsContainer"></div>
+    <footer>Chạm biểu tượng để copy link hoặc lấy QR code<br>Link do bạn thêm được lưu trên trình duyệt này (localStorage)</footer>
+  </div>
 
-  <footer>Chạm biểu tượng để copy link hoặc lấy QR code</footer>
+  <!-- TAB 2: QUICK CREATE -->
+  <div class="tab-panel" id="panelCreate">
+    <div class="create-card">
+      <div class="field">
+        <label for="quickUrl">Link</label>
+        <input type="text" id="quickUrl" placeholder="Dán hoặc gõ link, ví dụ: example.com" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="url">
+        <div class="hint" id="quickHint"></div>
+      </div>
+      <div class="field">
+        <label for="quickName">Tên hiển thị (không bắt buộc)</label>
+        <input type="text" id="quickName" placeholder="Ví dụ: Blog của mình" autocomplete="off" maxlength="60">
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-frame empty" id="qrFrame">Nhập link để tạo QR code ngay lập tức</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn primary" id="btnSave" onclick="saveQuick()" disabled></button>
+        <button class="btn" id="btnCopyQuick" onclick="copyQuick()" disabled></button>
+        <button class="btn" id="btnDownload" onclick="downloadQuickQR()" disabled></button>
+        <button class="btn" id="btnPaste" onclick="pasteFromClipboard()"></button>
+      </div>
+    </div>
+    <footer>Link lưu sẽ xuất hiện ở mục "Đã lưu trên máy" trong tab Danh sách,<br>và chỉ tồn tại trên trình trình duyệt này.</footer>
+  </div>
 </div>
 
 <div class="toast" id="toast">Đã sao chép link</div>
@@ -300,31 +460,69 @@
   <div class="modal">
     <p id="qrModalUrl"></p>
     <canvas id="qrCanvas"></canvas>
-    <button class="close" onclick="closeQR()">Đóng</button>
+    <div class="btn-row">
+      <button class="btn" id="modalDownload"></button>
+      <button class="btn" onclick="closeQR()">Đóng</button>
+    </div>
   </div>
 </div>
 
 <script>
 // ---- inline icon set (stroke, currentColor) ----
+const mk = (path, size=18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 const icons = {
-  book: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5v-13Z"/></svg>`,
-  film: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><line x1="3" y1="9" x2="8" y2="9"/><line x1="3" y1="15" x2="8" y2="15"/><line x1="16" y1="4" x2="16" y2="20"/></svg>`,
-  tool: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>`,
-  cap: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5 12 4l10 4.5-10 4.5-10-4.5Z"/><path d="M6 11v4c0 1.3 2.7 2.5 6 2.5s6-1.2 6-2.5v-4"/></svg>`,
-  dumbbell: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8v8"/><path d="M18 8v8"/><path d="M3 10v4"/><path d="M21 10v4"/><path d="M6 12h12"/></svg>`,
-  person: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"/></svg>`,
-  music: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>`,
-  copy: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>`,
-  qr: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="18" y1="14" x2="21" y2="14"/><line x1="14" y1="18" x2="17" y2="18"/><line x1="14" y1="21" x2="14" y2="21.01"/><line x1="21" y1="18" x2="21" y2="21"/><line x1="18" y1="21" x2="18" y2="21.01"/></svg>`,
-  external: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
-  grid: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>`,
+  book: mk(`<path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13Z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5v-13Z"/>`),
+  film: mk(`<rect x="3" y="4" width="18" height="16" rx="1.5"/><line x1="3" y1="9" x2="8" y2="9"/><line x1="3" y1="15" x2="8" y2="15"/><line x1="16" y1="4" x2="16" y2="20"/>`),
+  tool: mk(`<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/>`),
+  cap: mk(`<path d="M2 8.5 12 4l10 4.5-10 4.5-10-4.5Z"/><path d="M6 11v4c0 1.3 2.7 2.5 6 2.5s6-1.2 6-2.5v-4"/>`),
+  dumbbell: mk(`<path d="M6 8v8"/><path d="M18 8v8"/><path d="M3 10v4"/><path d="M21 10v4"/><path d="M6 12h12"/>`),
+  person: mk(`<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.5 3.1-6 7-6s7 2.5 7 6"/>`),
+  music: mk(`<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>`),
+  copy: mk(`<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>`, 16),
+  qr: mk(`<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="18" y1="14" x2="21" y2="14"/><line x1="14" y1="18" x2="17" y2="18"/><line x1="14" y1="21" x2="14" y2="21.01"/><line x1="21" y1="18" x2="21" y2="21"/><line x1="18" y1="21" x2="18" y2="21.01"/>`, 16),
+  external: mk(`<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><line x1="10" y1="14" x2="21" y2="3"/>`, 16),
+  grid: mk(`<rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/>`),
+  trash: mk(`<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>`, 16),
+  bookmark: mk(`<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/>`),
+  plus: mk(`<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`, 16),
+  download: mk(`<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>`, 16),
+  list: mk(`<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>`, 16),
+  clipboard: mk(`<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>`, 16),
 };
 
+// fill static icons / button labels
+document.getElementById('tabIconList').innerHTML = icons.list;
+document.getElementById('tabIconCreate').innerHTML = icons.plus;
+document.getElementById('btnSave').innerHTML = `${icons.bookmark.replace('width="18" height="18"','width="16" height="16"')} Lưu vào danh sách`;
+document.getElementById('btnCopyQuick').innerHTML = `${icons.copy} Copy link`;
+document.getElementById('btnDownload').innerHTML = `${icons.download} Tải QR (PNG)`;
+document.getElementById('btnPaste').innerHTML = `${icons.clipboard} Dán link`;
+document.getElementById('modalDownload').innerHTML = `${icons.download} Tải QR`;
+
+// ---- helpers ----
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 function domain(url){
   try{ return new URL(url).hostname.replace(/^www\./,''); }
   catch(e){ return url; }
 }
+// chuẩn hóa link: tự thêm https:// nếu thiếu, trả về null nếu không hợp lệ
+function normalizeUrl(raw){
+  let v = (raw || '').trim();
+  if(!v) return null;
+  if(/\s/.test(v)) return null;
+  if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = 'https://' + v;
+  try{
+    const u = new URL(v);
+    if(!/^https?:$/.test(u.protocol)) return null;
+    const h = u.hostname;
+    if(!(h.includes('.') || h === 'localhost' || /^\d+\.\d+\.\d+\.\d+$/.test(h))) return null;
+    return u.href;
+  }catch(e){ return null; }
+}
 
+// ---- built-in data ----
 const data = [
   {
     category: "Truyện & tiểu thuyết",
@@ -372,64 +570,117 @@ const data = [
   },
 ];
 
+// ---- local saved links (localStorage) ----
+const STORE_KEY = 'personal_links_saved_v1';
+let saved = loadSaved();
+
+function loadSaved(){
+  try{
+    const arr = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    return Array.isArray(arr) ? arr.filter(x => x && x.url) : [];
+  }catch(e){ return []; }
+}
+function persistSaved(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(saved)); return true; }
+  catch(e){ showToast("Không lưu được (trình duyệt chặn lưu trữ)"); return false; }
+}
+
+// ---- render list ----
 const container = document.getElementById('cardsContainer');
+
+function rowHTML(item, group, isLocal){
+  const rowIcon = item.icon || group.icon;
+  const meta = item.desc ? `${esc(item.desc)} · ${esc(domain(item.url))}` : esc(domain(item.url));
+  return `
+    <div class="row">
+      <span class="row-icon">${rowIcon}</span>
+      <a class="row-main" href="${esc(item.url)}" target="_blank" rel="noopener">
+        <span class="row-name">${esc(item.name)}</span>
+        <span class="row-url">${meta}</span>
+      </a>
+      <div class="row-actions">
+        <button class="icon-btn" title="Copy link" data-act="copy" data-url="${esc(item.url)}">${icons.copy}</button>
+        <button class="icon-btn" title="QR code" data-act="qr" data-url="${esc(item.url)}">${icons.qr}</button>
+        ${isLocal ? `<button class="icon-btn danger" title="Xóa link này" data-act="del" data-id="${esc(item.id)}">${icons.trash}</button>` : ''}
+        <a class="icon-btn" title="Mở trang" href="${esc(item.url)}" target="_blank" rel="noopener">${icons.external}</a>
+      </div>
+    </div>`;
+}
 
 function render(filter=""){
   container.innerHTML = "";
   const f = filter.trim().toLowerCase();
   let totalShown = 0;
 
-  data.forEach(group => {
+  const groups = [];
+  if(saved.length){
+    groups.push({
+      category: "Đã lưu trên máy",
+      icon: icons.bookmark,
+      local: true,
+      items: saved.map(s => ({ id:s.id, name:s.name, url:s.url, desc:s.desc || "" }))
+    });
+  }
+  data.forEach(g => groups.push(g));
+
+  groups.forEach(group => {
     const filteredItems = group.items.filter(it =>
-      it.name.toLowerCase().includes(f) || it.desc.toLowerCase().includes(f)
+      it.name.toLowerCase().includes(f) ||
+      (it.desc || '').toLowerCase().includes(f) ||
+      it.url.toLowerCase().includes(f)
     );
     if(filteredItems.length === 0) return;
     totalShown += filteredItems.length;
 
     const section = document.createElement('section');
     section.className = 'category';
-
     section.innerHTML = `
       <div class="cat-head">
         ${group.icon}
-        <h2>${group.category}</h2>
+        <h2>${esc(group.category)}</h2>
         <span class="cat-count">${filteredItems.length}</span>
       </div>
-      <div class="list"></div>
+      <div class="list">${filteredItems.map(it => rowHTML(it, group, !!group.local)).join('')}</div>
     `;
-
-    const list = section.querySelector('.list');
-    filteredItems.forEach(item => {
-      const row = document.createElement('div');
-      row.className = 'row';
-      const rowIcon = item.icon || group.icon;
-      row.innerHTML = `
-        <span class="row-icon">${rowIcon}</span>
-        <a class="row-main" href="${item.url}" target="_blank" rel="noopener">
-          <span class="row-name">${item.name}</span>
-          <span class="row-url">${item.desc} · ${domain(item.url)}</span>
-        </a>
-        <div class="row-actions">
-          <button class="icon-btn" title="Copy link" onclick="copyLink('${item.url}')">${icons.copy}</button>
-          <button class="icon-btn" title="QR code" onclick="showQR('${item.url}')">${icons.qr}</button>
-          <a class="icon-btn" title="Mở trang" href="${item.url}" target="_blank" rel="noopener">${icons.external}</a>
-        </div>
-      `;
-      list.appendChild(row);
-    });
-
     container.appendChild(section);
   });
 
   if(totalShown === 0){
     container.innerHTML = `<div class="empty">Không tìm thấy trang nào khớp.</div>`;
   }
+  updateBadge();
+}
+
+function updateBadge(){
+  const total = data.reduce((n,g) => n + g.items.length, 0) + saved.length;
+  document.getElementById('totalBadge').textContent = total;
 }
 
 function filterCards(){
   render(document.getElementById('searchInput').value);
 }
 
+// event delegation cho các nút trong danh sách
+container.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-act]');
+  if(!btn) return;
+  const act = btn.dataset.act;
+  if(act === 'copy') copyLink(btn.dataset.url);
+  else if(act === 'qr') showQR(btn.dataset.url);
+  else if(act === 'del') deleteSaved(btn.dataset.id);
+});
+
+function deleteSaved(id){
+  const item = saved.find(s => s.id === id);
+  if(!item) return;
+  if(!confirm(`Xóa "${item.name}" khỏi danh sách?`)) return;
+  saved = saved.filter(s => s.id !== id);
+  persistSaved();
+  filterCards();
+  showToast("Đã xóa link");
+}
+
+// ---- copy / toast ----
 function copyLink(url){
   navigator.clipboard.writeText(url).then(() => {
     showToast("Đã sao chép link");
@@ -450,25 +701,139 @@ function showToast(msg){
   toast.textContent = msg;
   toast.classList.add('show');
   clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => toast.classList.remove('show'), 1700);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 1800);
 }
 
+// ---- QR modal ----
+let modalUrl = '';
 function showQR(url){
+  modalUrl = url;
   const modal = document.getElementById('qrModal');
   const canvas = document.getElementById('qrCanvas');
   document.getElementById('qrModalUrl').textContent = url;
   QRCode.toCanvas(canvas, url, { width: 190, margin: 1, color: { dark: "#0b0c0f", light: "#ffffff" } });
   modal.classList.add('show');
 }
-
 function closeQR(){
   document.getElementById('qrModal').classList.remove('show');
 }
-
 document.getElementById('qrModal').addEventListener('click', (e) => {
   if(e.target.id === 'qrModal') closeQR();
 });
+document.getElementById('modalDownload').addEventListener('click', () => {
+  if(modalUrl) downloadQR(modalUrl, domain(modalUrl));
+});
 
+// tải QR PNG kích thước lớn (có viền trắng)
+function downloadQR(url, nameHint){
+  const c = document.createElement('canvas');
+  QRCode.toCanvas(c, url, { width: 512, margin: 3, color: { dark: "#0b0c0f", light: "#ffffff" } }, (err) => {
+    if(err){ showToast("Không tạo được QR"); return; }
+    const a = document.createElement('a');
+    a.href = c.toDataURL('image/png');
+    a.download = 'qr-' + (nameHint || 'link').replace(/[^\w.-]+/g, '_') + '.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast("Đã tải QR code");
+  });
+}
+
+// ---- tabs ----
+function switchTab(name){
+  const isList = name === 'list';
+  document.getElementById('panelList').classList.toggle('active', isList);
+  document.getElementById('panelCreate').classList.toggle('active', !isList);
+  document.getElementById('tabBtnList').classList.toggle('active', isList);
+  document.getElementById('tabBtnCreate').classList.toggle('active', !isList);
+  if(!isList) setTimeout(() => document.getElementById('quickUrl').focus(), 50);
+}
+
+// ---- quick create ----
+const quickUrl = document.getElementById('quickUrl');
+const quickName = document.getElementById('quickName');
+const quickHint = document.getElementById('quickHint');
+const qrFrame = document.getElementById('qrFrame');
+let currentQuick = null; // URL đã chuẩn hóa hiện tại
+
+function setQuickButtons(on){
+  ['btnSave','btnCopyQuick','btnDownload'].forEach(id => document.getElementById(id).disabled = !on);
+}
+
+function updateQuick(){
+  const raw = quickUrl.value;
+  quickHint.className = 'hint';
+  if(!raw.trim()){
+    currentQuick = null;
+    quickHint.textContent = '';
+    qrFrame.className = 'qr-frame empty';
+    qrFrame.textContent = 'Nhập link để tạo QR code ngay lập tức';
+    setQuickButtons(false);
+    return;
+  }
+  const url = normalizeUrl(raw);
+  if(!url){
+    currentQuick = null;
+    quickHint.className = 'hint err';
+    quickHint.textContent = 'Link chưa hợp lệ, kiểm tra lại nhé';
+    qrFrame.className = 'qr-frame empty';
+    qrFrame.textContent = 'Chưa có QR';
+    setQuickButtons(false);
+    return;
+  }
+  currentQuick = url;
+  quickHint.textContent = url !== raw.trim() ? 'Sẽ dùng: ' + url : '';
+  qrFrame.className = 'qr-frame';
+  qrFrame.innerHTML = '<canvas id="quickCanvas"></canvas>';
+  QRCode.toCanvas(document.getElementById('quickCanvas'), url, {
+    width: 200, margin: 1, color: { dark: "#0b0c0f", light: "#ffffff" }
+  });
+  setQuickButtons(true);
+}
+quickUrl.addEventListener('input', updateQuick);
+quickUrl.addEventListener('keydown', (e) => { if(e.key === 'Enter') saveQuick(); });
+quickName.addEventListener('keydown', (e) => { if(e.key === 'Enter') saveQuick(); });
+
+function saveQuick(){
+  if(!currentQuick){ showToast("Hãy nhập link hợp lệ trước"); return; }
+  if(saved.some(s => s.url === currentQuick) || data.some(g => g.items.some(i => i.url === currentQuick))){
+    showToast("Link này đã có trong danh sách");
+    return;
+  }
+  const name = quickName.value.trim() || domain(currentQuick);
+  saved.unshift({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name,
+    url: currentQuick,
+    desc: "Link thêm thủ công"
+  });
+  if(!persistSaved()) { saved.shift(); return; }
+  quickUrl.value = '';
+  quickName.value = '';
+  updateQuick();
+  document.getElementById('searchInput').value = '';
+  render();
+  showToast("Đã lưu vào danh sách");
+}
+
+function copyQuick(){
+  if(currentQuick) copyLink(currentQuick);
+}
+function downloadQuickQR(){
+  if(currentQuick) downloadQR(currentQuick, quickName.value.trim() || domain(currentQuick));
+}
+async function pasteFromClipboard(){
+  try{
+    const t = await navigator.clipboard.readText();
+    if(t){ quickUrl.value = t.trim(); updateQuick(); }
+    else showToast("Clipboard đang trống");
+  }catch(e){
+    showToast("Trình duyệt không cho đọc clipboard, hãy dán thủ công");
+    quickUrl.focus();
+  }
+}
+
+setQuickButtons(false);
 render();
 </script>
 
